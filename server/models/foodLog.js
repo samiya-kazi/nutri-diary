@@ -17,6 +17,10 @@ const foodLogSchema = new Schema({
     type: String,
     required: true
   },
+  servings: {
+    type: Number,
+    required: true
+  },
   totalCalories: {
     type: Number,
     required: true
