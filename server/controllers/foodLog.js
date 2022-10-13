@@ -9,16 +9,17 @@ async function addFoodToMeal (req, res) {
 
     const date = new Date(req.body.date).toISOString().split('T')[0]
 
+    const foodName = food.name;
     const totalCalories = Math.ceil(food.calories * servings);
     const totalFats = (food.fats * servings).toFixed(1);
     const totalProtein = (food.protein * servings).toFixed(1);
     const totalCarbs = (food.carbs * servings).toFixed(1);
     const totalSugar = (food.sugar * servings).toFixed(1);
 
-    await FoodLog.validate({userId, foodId, date, meal, servings, totalCalories, totalCarbs, totalFats, totalProtein, totalSugar}, 
-      ['userId', 'foodId', 'date', 'meal', 'servings', 'totalCalories', 'totalCarbs', 'totalFats', 'totalProtein', 'totalSugar']);
+    await FoodLog.validate({userId, foodId, foodName, date, meal, servings, totalCalories, totalCarbs, totalFats, totalProtein, totalSugar}, 
+      ['userId', 'foodId', 'foodName', 'date', 'meal', 'servings', 'totalCalories', 'totalCarbs', 'totalFats', 'totalProtein', 'totalSugar']);
 
-    const result = await FoodLog.create({userId, foodId, date, meal, servings, totalCalories, totalCarbs, totalFats, totalProtein, totalSugar});
+    const result = await FoodLog.create({userId, foodId, foodName, date, meal, servings, totalCalories, totalCarbs, totalFats, totalProtein, totalSugar});
 
     res.status(201).send(result);
 
@@ -29,4 +30,20 @@ async function addFoodToMeal (req, res) {
 }
 
 
-module.exports = { addFoodToMeal }
+async function getMealsForDay (req, res) {
+  try {
+    const date = new Date(req.params.date).toISOString().split('T')[0];
+    const userId = req.user._id;
+
+    const result = await FoodLog.find({userId, date});
+
+    res.status(201).send(result);
+
+  } catch (error) {
+    res.status(500).send('Server error \n ' + error.message);
+    console.error(error.message);   
+  }
+}
+
+
+module.exports = { addFoodToMeal, getMealsForDay }

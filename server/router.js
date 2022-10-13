@@ -15,7 +15,7 @@ router.post('/user/log', authMiddleware, userController.addUserLog);
 router.get('/user/log', authMiddleware, userController.getAllLogs);
 router.get('/user/current', authMiddleware, userController.getCurrentInfo);
 
-router.get('/diary', authMiddleware)
+router.get('/diary/:date', authMiddleware, foodLogController.getMealsForDay)
 router.post('/diary', authMiddleware, foodLogController.addFoodToMeal);
 router.delete('/diary', authMiddleware)
 router.post('/diary', authMiddleware)

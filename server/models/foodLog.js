@@ -9,6 +9,10 @@ const foodLogSchema = new Schema({
     type: String,
     required: true
   },
+  foodName: {
+    type: String,
+    required: true
+  },
   date: {
     type: Date,
     required: true
