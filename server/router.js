@@ -18,6 +18,6 @@ router.get('/user/current', authMiddleware, userController.getCurrentInfo);
 router.get('/diary/:date', authMiddleware, foodLogController.getMealsForDay)
 router.post('/diary', authMiddleware, foodLogController.addFoodToMeal);
 router.delete('/diary/:id', authMiddleware, foodLogController.deleteFoodFromMeal);
-router.put('/diary', authMiddleware)
+router.put('/diary', authMiddleware, foodLogController.updateFoodInMeal);
 
 module.exports = router;

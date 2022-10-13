@@ -67,4 +67,43 @@ async function deleteFoodFromMeal (req, res) {
 }
 
 
-module.exports = { addFoodToMeal, getMealsForDay, deleteFoodFromMeal }
+async function updateFoodInMeal (req, res) {
+  try {
+    const { foodLogId, meal, servings } = req.body;
+    const userId = req.user._id;
+
+    const foodLog = await FoodLog.findById(foodLogId);
+
+    if (foodLog.userId == userId) {
+      const food = await Food.findById(foodLog.foodId);
+      const totalCalories = Math.ceil(food.calories * servings);
+      const totalFats = (food.fats * servings).toFixed(1);
+      const totalProtein = (food.protein * servings).toFixed(1);
+      const totalCarbs = (food.carbs * servings).toFixed(1);
+      const totalSugar = (food.sugar * servings).toFixed(1);
+
+      await FoodLog.findByIdAndUpdate(foodLogId, {$set: {totalCalories, totalCarbs, totalFats, totalProtein, totalSugar, servings, meal}});
+      
+      const result = await FoodLog.findById(foodLogId);
+      
+      res.status(201).send(result);
+
+    } else {
+      res.status(401).send('Not authorized.');
+    }
+
+  } catch (error) {
+    res.status(500).send('Server error \n ' + error.message);
+    console.error(error.message);   
+  }
+}
+
+
+
+
+module.exports = { 
+  addFoodToMeal, 
+  getMealsForDay, 
+  deleteFoodFromMeal,
+  updateFoodInMeal
+ }
