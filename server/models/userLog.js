@@ -1,6 +1,6 @@
 const { model, Schema } = require('mongoose');
 
-const userInfoSchema = new Schema({
+const userLogSchema = new Schema({
   userId: {
     type: String,
     required: true
@@ -17,16 +17,20 @@ const userInfoSchema = new Schema({
     type: Date,
     required: true
   },
+  weightGoal: {
+    type: Number,
+    required: true
+  },
+  basalCal: {
+    type: Number,
+    required: true
+  },
   calGoal: {
     type: Number,
     required: true
   },
-  weightGoal: {
-    type: Number,
-    required: true
-  }
 });
 
-const UserInfo = model('UserInfo', userInfoSchema);
+const UserLog = model('UserLog', userLogSchema);
 
-module.exports = UserInfo;
+module.exports = UserLog;

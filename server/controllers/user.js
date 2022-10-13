@@ -1,4 +1,6 @@
 const User = require('../models/user');
+const UserLog = require('../models/userLog');
+const { calcBasalCalories, calcCalorieGoal } = require('../utils/calorieHelper');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
@@ -30,7 +32,7 @@ async function login (req, res) {
 }
 
 
-const register = async (req, res) => {
+async function register (req, res) {
   try {
     const { firstName, lastName, email, gender, age } = req.body;
     const pass = req.body.password;
@@ -59,4 +61,59 @@ const register = async (req, res) => {
 };
 
 
-module.exports = { login, register }
+async function addUserLog (req, res) {
+  try {
+    const { height, weight, weightGoal } = req.body;
+    const userId = req.user._id;
+    const { gender, age } = req.user;
+    const date = new Date;
+
+    const basalCal = calcBasalCalories(gender, height, weight, age);
+
+    const goal = weightGoal > weight ? 'gain': weightGoal < weight ? 'lose' : 'maintain';
+
+    const calGoal = calcCalorieGoal(basalCal, goal);
+
+    await UserLog.validate({userId, height, weight, date, weightGoal, basalCal, calGoal}, ['userId', 'height', 'weight', 'date', 'weightGoal', 'basalCal', 'calGoal']);
+    const result = await UserLog.create({userId, height, weight, date, weightGoal, basalCal, calGoal});
+
+    res.status(201).send(result);
+
+  } catch (error) {
+    res.status(500).send('Server error \n ' + error.message);
+    console.error(error.message);
+  }
+};
+
+
+async function getCurrentInfo (req, res) {
+  try {
+    const userId = req.user._id;
+
+    const result = await UserLog.find({userId}).sort({ date: -1 }).limit(1);
+    
+    res.status(200).send(result);
+  } catch (error) {
+    res.status(500).send('Server error \n ' + error.message);
+    console.error(error.message);    
+  }
+  
+}
+
+
+async function getAllLogs (req, res) {
+  try {
+    const userId = req.user._id;
+
+    const result = await UserLog.find({userId});
+    
+    res.status(200).send(result);
+  } catch (error) {
+    res.status(500).send('Server error \n ' + error.message);
+    console.error(error.message);    
+  }
+  
+}
+
+
+module.exports = { login, register, addUserLog, getCurrentInfo, getAllLogs }
