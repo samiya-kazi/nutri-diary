@@ -46,4 +46,25 @@ async function getMealsForDay (req, res) {
 }
 
 
-module.exports = { addFoodToMeal, getMealsForDay }
+async function deleteFoodFromMeal (req, res) {
+  try {
+    const foodLogId = req.params.id;
+    const userId = req.user._id;
+
+    const foodLog = await FoodLog.findById(foodLogId);
+    
+    if (foodLog.userId == userId) {
+      const result = await FoodLog.findByIdAndDelete(foodLogId);
+      res.status(200).send(result);
+    } else {
+      res.status(401).send('Not authorized.');
+    }
+
+  } catch (error) {
+    res.status(500).send('Server error \n ' + error.message);
+    console.error(error.message);   
+  }
+}
+
+
+module.exports = { addFoodToMeal, getMealsForDay, deleteFoodFromMeal }
