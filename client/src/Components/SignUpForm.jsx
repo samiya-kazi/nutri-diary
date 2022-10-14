@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { Button } from "@mui/material";
@@ -6,14 +7,35 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { signUp } from "../services/apiClientService";
 
 function SignUpForm () {
 
-  const [gender, setGender] = React.useState('');
+  const initialState = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    gender: 'Male',
+    age: 0
+  };
+
+  const [ state, setState ] = useState(initialState);
 
   const handleChange = (event) => {
-    setGender(event.target.value);
-  };
+    const { name, value } = event.target;
+    setState(prevState => ({...prevState, [name]: value}));
+  }
+
+  const handleSubmit = () => {
+    async function signUpUser (data) {
+      const result = await signUp(data);
+
+      localStorage.setItem('accessToken', result.headers.authorization);
+    }
+
+    signUpUser(state);
+  }
 
   return (
     <>
@@ -37,20 +59,26 @@ function SignUpForm () {
 
         <TextField
           required
-          id="fname"
+          id="firstName"
           label="First Name"
+          name='firstName'
+          onChange={handleChange}
         />
 
         <TextField
           required
-          id="lname"
+          id="lastNname"
           label="Last Name"
+          name='lastName'
+          onChange={handleChange}
         />
 
         <TextField
           required
           id="email"
           label="Email"
+          name='email'
+          onChange={handleChange}
         />
 
         <TextField
@@ -59,6 +87,8 @@ function SignUpForm () {
           label="Password"
           type="password"
           autoComplete="current-password"
+          name='password'
+          onChange={handleChange}
         />
 
         <TextField
@@ -74,9 +104,10 @@ function SignUpForm () {
           <Select
             labelId="gender-label"
             id="gender"
-            value={gender}
             label="Gender"
             onChange={handleChange}
+            name='gender'
+            defaultValue={'Male'}
           >
             <MenuItem value={'Male'}>Male</MenuItem>
             <MenuItem value={'Female'}>Female</MenuItem>
@@ -88,11 +119,13 @@ function SignUpForm () {
           id="age"
           label="Age"
           type="number"
+          name='age'
+          onChange={handleChange}
         />
 
 
 
-        <Button variant='contained' color="secondary" >Sign Up</Button>
+        <Button variant='contained' color="secondary" onClick={handleSubmit}>Sign Up</Button>
       </div>
     </>
   )
