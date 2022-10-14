@@ -13,13 +13,13 @@ import MenuItem from '@mui/material/MenuItem';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const token = localStorage.getItem('accessToken');
-const pages = token ? ['Home', 'Diary'] : ['Sign Up', 'Login'];
-const settings = ['Profile', 'Logout'];
 
 
 function Navbar () {
-
+  
+  const token = localStorage.getItem('accessToken');
+  const pages = token ? ['Home', 'Diary'] : ['Sign Up', 'Login'];
+  const settings = ['Profile', 'Logout'];
   let navigate = useNavigate();
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);

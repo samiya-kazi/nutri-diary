@@ -5,10 +5,12 @@ import Button from "@mui/material/Button";
 import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import { useNavigate } from 'react-router-dom';
 import { useState } from "react";
 import { login } from "../services/apiClientService";
 
 function LoginForm () {
+  let navigate = useNavigate();
   const initialState = {
     email: '',
     password: '',
@@ -38,6 +40,7 @@ function LoginForm () {
       try {
         const result = await login(data);
         localStorage.setItem('accessToken', result.headers.authorization);
+        navigate('/home');
       } catch (error) {
         setOpen(true);
         setErrorMessage(error.response.data);

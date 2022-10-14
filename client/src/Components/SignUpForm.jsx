@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { Button } from "@mui/material";
@@ -13,6 +14,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import { signUp } from "../services/apiClientService";
 
 function SignUpForm () {
+
+  let navigate = useNavigate();
 
   const initialState = {
     firstName: '',
@@ -47,6 +50,7 @@ function SignUpForm () {
       try {
         const result = await signUp(data);
         localStorage.setItem('accessToken', result.headers.authorization);
+        navigate('/home');
       } catch (error) {
         setOpen(true);
         setErrorMessage(error.response.data);

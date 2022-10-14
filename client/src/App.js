@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Login from './Pages/Login';
 import Register from './Pages/Register';
+import Home from './Pages/Home';
 
 const theme = createTheme({
   palette: {
@@ -23,6 +24,7 @@ function App() {
           <Route exact path='/' element={<Login />} />
           <Route exact path='/login' element={<Login />} />
           <Route exact path='/signup' element={<Register />} />
+          <Route exact path='/home' element={<Home />} />
 
         </Routes>
       </Router>
