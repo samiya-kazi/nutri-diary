@@ -40,10 +40,11 @@ function LoginForm () {
       try {
         const result = await login(data);
         localStorage.setItem('accessToken', result.headers.authorization);
+        localStorage.setItem('user', JSON.stringify(result.data));
         navigate('/home');
       } catch (error) {
         setOpen(true);
-        setErrorMessage(error.response.data);
+        //setErrorMessage(error.response.data);
       }
     }
 

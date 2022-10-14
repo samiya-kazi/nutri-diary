@@ -18,6 +18,8 @@ import { useNavigate } from 'react-router-dom';
 function Navbar () {
   
   const token = localStorage.getItem('accessToken');
+  const user = JSON.parse(localStorage.getItem('user'));
+
   const pages = token ? ['Home', 'Diary'] : ['Sign Up', 'Login'];
   const settings = ['Profile', 'Logout'];
   let navigate = useNavigate();
@@ -47,8 +49,13 @@ function Navbar () {
     navigate(`/${url}`);
   };
   
-  const handleLogout = () => {
-    localStorage.clear();
+  const handleMenuClick = (item) => {
+    if(item === 'Logout') {
+      localStorage.clear();
+      navigate('/');
+    } else {
+      navigate('/profile');
+    }
   }
 
   return (
@@ -131,7 +138,7 @@ function Navbar () {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="User" src="/static/images/avatar/2.jpg" />
+                <Avatar alt={user.firstName} src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
             <Menu
@@ -152,7 +159,7 @@ function Navbar () {
             >
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                  <Typography textAlign="center" onClick={() => handleMenuClick(setting)} >{setting}</Typography>
                 </MenuItem>
               ))}
             </Menu>

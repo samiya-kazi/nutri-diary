@@ -50,6 +50,7 @@ function SignUpForm () {
       try {
         const result = await signUp(data);
         localStorage.setItem('accessToken', result.headers.authorization);
+        localStorage.setItem('user', JSON.stringify(result.data));
         navigate('/home');
       } catch (error) {
         setOpen(true);
