@@ -1,7 +1,6 @@
 import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { Button } from '@mui/material';
-import Navbar from './Components/Navbar';
 import Login from './Pages/Login';
 import Register from './Pages/Register';
 
@@ -19,7 +18,14 @@ const theme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <Register />
+      <Router>
+        <Routes>
+          <Route exact path='/' element={<Login />} />
+          <Route exact path='/login' element={<Login />} />
+          <Route exact path='/signup' element={<Register />} />
+
+        </Routes>
+      </Router>
     </ThemeProvider>
   );
 }

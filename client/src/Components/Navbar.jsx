@@ -11,12 +11,16 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const pages = ['Home', 'Diary'];
+const token = localStorage.getItem('accessToken');
+const pages = token ? ['Home', 'Diary'] : ['Sign Up', 'Login'];
 const settings = ['Profile', 'Logout'];
 
 
 function Navbar () {
+
+  let navigate = useNavigate();
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -35,7 +39,17 @@ function Navbar () {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const handleNav = (event) => {
+    setAnchorElNav(null);
+    const { name } = event.target;
+    const url = name.split(' ').join('').toLowerCase();
+    navigate(`/${url}`);
+  };
   
+  const handleLogout = () => {
+    localStorage.clear();
+  }
 
   return (
     <>
@@ -102,13 +116,17 @@ function Navbar () {
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
+                onClick={handleNav}
                 sx={{ my: 2, color: 'white', display: 'block' }}
+                name={page}
               >
                 {page}
               </Button>
             ))}
           </Box>
+
+
+          {token ? (
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
@@ -139,6 +157,8 @@ function Navbar () {
               ))}
             </Menu>
           </Box>
+          ) : null}
+
         </Toolbar>
       </Container>
     </AppBar>
