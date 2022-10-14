@@ -1,7 +1,10 @@
 import React from "react";
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { Button } from "@mui/material";
+import Button from "@mui/material/Button";
+import Snackbar from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 import { useState } from "react";
 import { login } from "../services/apiClientService";
 
@@ -12,6 +15,17 @@ function LoginForm () {
   };
 
   const [ state, setState ] = useState(initialState);
+  const [ open, setOpen ] = useState(false);
+  const [ errorMessage, setErrorMessage ] = useState('');
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+    setErrorMessage('');
+  };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -21,13 +35,31 @@ function LoginForm () {
 
   const handleSubmit = () => {
     async function loginUser (data) {
-      const result = await login(data);
-
-      localStorage.setItem('accessToken', result.headers.authorization);
+      try {
+        const result = await login(data);
+        localStorage.setItem('accessToken', result.headers.authorization);
+      } catch (error) {
+        setOpen(true);
+        setErrorMessage(error.response.data);
+      }
     }
 
     loginUser(state);
   }
+
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
 
   return (
@@ -68,6 +100,14 @@ function LoginForm () {
 
         <Button type='submit' variant='contained' color="secondary" onClick={handleSubmit}>Login</Button>
       </div>
+
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message={errorMessage}
+        action={action}
+      />
     </>
   )
 }

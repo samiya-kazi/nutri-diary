@@ -7,6 +7,9 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import Snackbar from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 import { signUp } from "../services/apiClientService";
 
 function SignUpForm () {
@@ -21,6 +24,18 @@ function SignUpForm () {
   };
 
   const [ state, setState ] = useState(initialState);
+  const [ open, setOpen ] = useState(false);
+  const [ errorMessage, setErrorMessage ] = useState('');
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+    setErrorMessage('');
+  };
+
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -29,13 +44,33 @@ function SignUpForm () {
 
   const handleSubmit = () => {
     async function signUpUser (data) {
-      const result = await signUp(data);
-
-      localStorage.setItem('accessToken', result.headers.authorization);
+      try {
+        const result = await signUp(data);
+        localStorage.setItem('accessToken', result.headers.authorization);
+      } catch (error) {
+        setOpen(true);
+        setErrorMessage(error.response.data);
+      }
     }
 
     signUpUser(state);
   }
+
+
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+
+
 
   return (
     <>
@@ -127,6 +162,14 @@ function SignUpForm () {
 
         <Button variant='contained' color="secondary" onClick={handleSubmit}>Sign Up</Button>
       </div>
+
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message={errorMessage}
+        action={action}
+      />
     </>
   )
 }
