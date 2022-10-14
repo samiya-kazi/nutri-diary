@@ -15,3 +15,8 @@ axios.interceptors.request.use(
 export const login = (data) => axios.post(`${URL}/login`, data);
 
 export const signUp = (data) => axios.post(`${URL}/register`, data);
+
+export const getMeals = (date) => {
+  console.log(`${URL}/diary/${date}`);
+  return axios.get(`${URL}/diary/${date}`)
+};
