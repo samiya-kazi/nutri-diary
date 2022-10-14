@@ -4,6 +4,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Login from './Pages/Login';
 import Register from './Pages/Register';
 import Home from './Pages/Home';
+import Diary from './Pages/Diary';
 
 const theme = createTheme({
   palette: {
@@ -25,6 +26,7 @@ function App() {
           <Route exact path='/login' element={<Login />} />
           <Route exact path='/signup' element={<Register />} />
           <Route exact path='/home' element={<Home />} />
+          <Route exact path='/diary' element={<Diary />} />
 
         </Routes>
       </Router>

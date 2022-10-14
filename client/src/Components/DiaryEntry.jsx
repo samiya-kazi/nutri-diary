@@ -36,7 +36,7 @@ function DiaryEntry ({ date }) {
   }
 
   return (
-    <>
+    <div className='diary-entry-container' >
 
     <Typography
       variant="h4"
@@ -87,7 +87,7 @@ function DiaryEntry ({ date }) {
         </TableBody>
       </Table>
     </TableContainer>
-    </>
+    </div>
   )
 }
 
