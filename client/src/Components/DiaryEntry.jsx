@@ -5,11 +5,16 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import Typography from '@mui/material/Typography';
+import Meal from "./Meal";
+import { format, parseISO } from 'date-fns';
 import { getMeals } from "../services/apiClientService";
 
 function DiaryEntry ({ date }) {
 
   const [ foodLogs, setFoodLogs ] = useState([]);
+
+  const parsedDate = format(parseISO(date), 'do MMM, yyyy');
 
   useEffect(() => {
     async function getFoodLogs () {
@@ -25,10 +30,35 @@ function DiaryEntry ({ date }) {
   }, [date]);
 
 
+  function getTotal (field) {
+    const result = foodLogs.reduce((acc, log) => acc + log[field], 0);
+    return result;
+  }
+
   return (
     <>
+
+    <Typography
+      variant="h4"
+      noWrap
+      component="h1"
+      href="/"
+      sx={{
+        mr: 2,
+        display: { xs: 'flex', md: 'flex' },
+        fontWeight: 700,
+        letterSpacing: '.3rem',
+        color: 'inherit',
+        textDecoration: 'none',
+        align:'center'
+      }}
+      >
+        {parsedDate}
+    </Typography>
+
+
     <TableContainer >
-      <Table sx={{ minWidth: 650, maxWidth: 1000 }} aria-label="simple table">
+      <Table sx={{ minWidth: 650, maxWidth: 1000, border: 'grey solid 1px', my: '1rem'}} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell>Item</TableCell>
@@ -41,81 +71,19 @@ function DiaryEntry ({ date }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          <TableRow>Breakfast</TableRow>
-          {foodLogs.map((row) => {
-            if (row.meal === 'Breakfast') return (
-              <TableRow
-                key={row.foodName}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {row.foodName}
-                </TableCell>
-                <TableCell>{row.servings}</TableCell>
-                <TableCell align="right">{row.totalCalories}</TableCell>
-                <TableCell align="right">{row.totalFats}</TableCell>
-                <TableCell align="right">{row.totalCarbs}</TableCell>
-                <TableCell align="right">{row.totalProtein}</TableCell>
-                <TableCell align="right">{row.totalSugar}</TableCell>
-              </TableRow>
-          )})}
+          <Meal logs={foodLogs} meal='Breakfast'/>
+          <Meal logs={foodLogs} meal='Lunch'/>
+          <Meal logs={foodLogs} meal='Dinner'/>
+          <Meal logs={foodLogs} meal='Snacks'/>
 
-          <TableRow>Lunch</TableRow>
-          {foodLogs.map((row) => {
-            if (row.meal === 'Lunch') return (
-              <TableRow
-                key={row.foodName}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {row.foodName}
-                </TableCell>
-                <TableCell>{row.servings}</TableCell>
-                <TableCell align="right">{row.totalCalories}</TableCell>
-                <TableCell align="right">{row.totalFats}</TableCell>
-                <TableCell align="right">{row.totalCarbs}</TableCell>
-                <TableCell align="right">{row.totalProtein}</TableCell>
-                <TableCell align="right">{row.totalSugar}</TableCell>
-              </TableRow>
-          )})}
-
-          <TableRow>Dinner</TableRow>
-          {foodLogs.map((row) => {
-            if (row.meal === 'Dinner') return (
-              <TableRow
-                key={row.foodName}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {row.foodName}
-                </TableCell>
-                <TableCell>{row.servings}</TableCell>
-                <TableCell align="right">{row.totalCalories}</TableCell>
-                <TableCell align="right">{row.totalFats}</TableCell>
-                <TableCell align="right">{row.totalCarbs}</TableCell>
-                <TableCell align="right">{row.totalProtein}</TableCell>
-                <TableCell align="right">{row.totalSugar}</TableCell>
-              </TableRow>
-          )})}
-
-          <TableRow>Snacks</TableRow>
-          {foodLogs.map((row) => {
-            if (row.meal === 'Snacks') return (
-              <TableRow
-                key={row.foodName}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {row.foodName}
-                </TableCell>
-                <TableCell>{row.servings}</TableCell>
-                <TableCell align="right">{row.totalCalories}</TableCell>
-                <TableCell align="right">{row.totalFats}</TableCell>
-                <TableCell align="right">{row.totalCarbs}</TableCell>
-                <TableCell align="right">{row.totalProtein}</TableCell>
-                <TableCell align="right">{row.totalSugar}</TableCell>
-              </TableRow>
-          )})}
+          <TableRow>
+            <TableCell colSpan={2} >Total</TableCell>
+            <TableCell align="right">{getTotal('totalCalories')}</TableCell>
+            <TableCell align="right">{getTotal('totalFats')}</TableCell>
+            <TableCell align="right">{getTotal('totalCarbs')}</TableCell>
+            <TableCell align="right">{getTotal('totalProtein')}</TableCell>
+            <TableCell align="right">{getTotal('totalSugar')}</TableCell>
+          </TableRow>
         </TableBody>
       </Table>
     </TableContainer>
