@@ -5,6 +5,7 @@ import Login from './Pages/Login';
 import Register from './Pages/Register';
 import Home from './Pages/Home';
 import Diary from './Pages/Diary';
+import AddFoodPage from './Pages/AddFoodPage';
 
 const theme = createTheme({
   palette: {
@@ -27,6 +28,7 @@ function App() {
           <Route exact path='/signup' element={<Register />} />
           <Route exact path='/home' element={<Home />} />
           <Route exact path='/diary' element={<Diary />} />
+          <Route exact path='/addfood' element={<AddFoodPage />} />
 
         </Routes>
       </Router>

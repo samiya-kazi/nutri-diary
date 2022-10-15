@@ -18,7 +18,7 @@ function Diary () {
     <div className="date-selection-container">
       <TextField type='date' onChange={handleChange}></TextField>
     </div>
-    {date ? <DiaryEntry date={date} /> : 'No date has been selected.'}
+    {date ? <DiaryEntry date={date} setTotalCal={() => {}}/> : 'No date has been selected.'}
     </>
   )
 }
