@@ -23,3 +23,5 @@ export const getCurrentUserGoals = () => axios.get(`${URL}/user/current`);
 export const getFoodSearch = (data) => axios.get(`${URL}/food?search=${data}`);
 
 export const addFoodToMeal = (data) => axios.post(`${URL}/diary`, data);
+
+export const deleteFoodFromMeal = (id) => axios.delete(`${URL}/diary/${id}`);

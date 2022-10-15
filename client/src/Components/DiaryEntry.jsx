@@ -71,13 +71,14 @@ function DiaryEntry ({ date, setTotalCal }) {
             <TableCell align="right">Carbs&nbsp;(g)</TableCell>
             <TableCell align="right">Protein&nbsp;(g)</TableCell>
             <TableCell align="right">Sugar&nbsp;(g)</TableCell>
+            <TableCell align="right">Action</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          <Meal logs={foodLogs} meal='Breakfast'/>
-          <Meal logs={foodLogs} meal='Lunch'/>
-          <Meal logs={foodLogs} meal='Dinner'/>
-          <Meal logs={foodLogs} meal='Snacks'/>
+          <Meal logs={foodLogs} meal='Breakfast'setFoodLogs={setFoodLogs} />
+          <Meal logs={foodLogs} meal='Lunch' setFoodLogs={setFoodLogs} />
+          <Meal logs={foodLogs} meal='Dinner' setFoodLogs={setFoodLogs} />
+          <Meal logs={foodLogs} meal='Snack' setFoodLogs={setFoodLogs} />
 
           <TableRow>
             <TableCell colSpan={2} >Total</TableCell>

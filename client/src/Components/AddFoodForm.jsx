@@ -9,7 +9,7 @@ function AddFoodForm ({ selectedFood }) {
 
   const initialState = {
     date: '',
-    meal: '',
+    meal: 'Breakfast',
     servings: 1
   }
 
