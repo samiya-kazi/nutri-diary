@@ -20,6 +20,8 @@ export const getMeals = (date) => axios.get(`${URL}/diary/${date}`);
 
 export const getCurrentUserGoals = () => axios.get(`${URL}/user/current`);
 
+export const postUserGoals = (data) => axios.post(`${URL}/user/log`, data);
+
 export const getFoodSearch = (data) => axios.get(`${URL}/food?search=${data}`);
 
 export const addFoodToMeal = (data) => axios.post(`${URL}/diary`, data);

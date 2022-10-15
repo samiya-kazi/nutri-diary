@@ -6,6 +6,7 @@ import Register from './Pages/Register';
 import Home from './Pages/Home';
 import Diary from './Pages/Diary';
 import AddFoodPage from './Pages/AddFoodPage';
+import Profile from './Pages/Profile';
 
 const theme = createTheme({
   palette: {
@@ -29,6 +30,7 @@ function App() {
           <Route exact path='/home' element={<Home />} />
           <Route exact path='/diary' element={<Diary />} />
           <Route exact path='/addfood' element={<AddFoodPage />} />
+          <Route exact path='/profile' element={<Profile />} />
 
         </Routes>
       </Router>
