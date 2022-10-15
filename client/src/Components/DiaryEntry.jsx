@@ -10,7 +10,7 @@ import Meal from "./Meal";
 import { format, parseISO } from 'date-fns';
 import { getMeals } from "../services/apiClientService";
 
-function DiaryEntry ({ date }) {
+function DiaryEntry ({ date, setTotalCal }) {
 
   const [ foodLogs, setFoodLogs ] = useState([]);
 
@@ -29,6 +29,9 @@ function DiaryEntry ({ date }) {
     getFoodLogs();
   }, [date]);
 
+  useEffect(() => {
+    setTotalCal(getTotal('totalCalories'));
+  }, [foodLogs])
 
   function getTotal (field) {
     const result = foodLogs.reduce((acc, log) => acc + log[field], 0);

@@ -20,7 +20,7 @@ function Navbar () {
   const token = localStorage.getItem('accessToken');
   const user = JSON.parse(localStorage.getItem('user'));
 
-  const pages = token ? ['Home', 'Diary'] : ['Sign Up', 'Login'];
+  const pages = token ? ['Home', 'Diary', 'Add Food'] : ['Sign Up', 'Login'];
   const settings = ['Profile', 'Logout'];
   let navigate = useNavigate();
 
