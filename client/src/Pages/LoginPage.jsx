@@ -14,7 +14,7 @@ function LoginPage() {
   }
 
   return (
-    <div className="flex flex-row justify-center items-center">
+    <div className="flex flex-row justify-around items-center">
       <Player
         autoplay
         loop
@@ -47,7 +47,7 @@ function LoginPage() {
 
         <button className="btn btn-primary">Login</button>
 
-        <p className='mt-5'>Don't have an account? <Link to="/sign-up" >Sign up</Link></p>
+        <p className='mt-5 self-center'>Don't have an account? <Link to="/sign-up" >Sign up</Link></p>
       </form>
     </div>
   )
