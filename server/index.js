@@ -4,11 +4,10 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const router = require('./router');
 require('dotenv').config();
-const PORT = process.env.SERVER_PORT;
-const HOST = process.env.SERVER_HOST;
+const conf = require('./config');
 
 const corsConfig = {
-  origin: 'http://localhost:3000',
+  origin: conf.CORS_ORIGIN,
   credentials: true,
   exposedHeaders: 'Authorization'
 };
@@ -19,8 +18,8 @@ app.use(router);
 
 
 (async function bootstrap () {
-  await mongoose.connect('mongodb://127.0.0.1:27017/nutri-diary');
+  await mongoose.connect(conf.MONGOOSE_URI);
   console.log('Conected to MongoDB.');
 
-  app.listen(PORT, () => console.log(`Server listening on host ${HOST} and port ${PORT}.`))
+  app.listen(conf.SERVER_PORT, () => console.log(`Server listening on host ${conf.SERVER_HOST} and port ${conf.SERVER_PORT}.`))
 })();

@@ -3,8 +3,7 @@ const UserLog = require('../models/userLog');
 const { calcBasalCalories, calcCalorieGoal } = require('../utils/calorieHelper');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-require('dotenv').config();
-const secret = process.env.JWT_SECRET;
+const secret = require('../config.js').JWT_SECRET || 'test-secret';
 
 async function login (req, res) {
   try {

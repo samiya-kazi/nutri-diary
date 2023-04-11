@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user.js');
-require('dotenv').config();
-const secret = process.env.JWT_SECRET;
+const secret = require('../config.js').JWT_SECRET || 'test-secret';
 
 const authMiddleware = async (req, res, next) => {
    try {
