@@ -3,7 +3,11 @@ const genders = ['male', 'female'];
 
 
 function calcBasalCalories (gender, height, weight, age) {
-  const validate = (genders.indexOf(gender) !== -1 && typeof height === 'number' && typeof weight === 'number' && typeof age === 'number')
+
+  const parsedHeight = parseFloat(height);
+  const parsedWeight = parseFloat(weight);
+
+  const validate = (genders.indexOf(gender) !== -1 && height && weight && typeof age === 'number')
 
   if (validate) {
 
@@ -12,10 +16,10 @@ function calcBasalCalories (gender, height, weight, age) {
     //Women: BMR = 447.593 + (9.247 x weight in kg) + (3.098 x height in cm) – (4.330 x age in years)
 
     if (gender === 'male') {
-      const calories = Math.ceil(88.362 + (13.397 * weight) + (4.799 * height) - (5.677 * age));
+      const calories = Math.ceil(88.362 + (13.397 * parsedWeight) + (4.799 * parsedHeight) - (5.677 * age));
       return calories;
     } else {
-      const calories = Math.ceil(447.593 + (9.247 * weight) + (3.098 * height) - (4.330 * age));
+      const calories = Math.ceil(447.593 + (9.247 * parsedWeight) + (3.098 * parsedHeight) - (4.330 * age));
       return calories;
     }
 

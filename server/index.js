@@ -7,13 +7,13 @@ require('dotenv').config();
 const PORT = process.env.SERVER_PORT;
 const HOST = process.env.SERVER_HOST;
 
-// const corsConfig = {
-//   origin: 'https://thumb-stack-client.vercel.app',
-//   credentials: true,
-//   exposedHeaders: 'Authorization'
-// };
+const corsConfig = {
+  origin: 'http://localhost:3000',
+  credentials: true,
+  exposedHeaders: 'Authorization'
+};
 
-app.use(cors());
+app.use(cors(corsConfig));
 app.use(express.json());
 app.use(router);
 

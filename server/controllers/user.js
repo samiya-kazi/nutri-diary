@@ -92,7 +92,7 @@ async function getCurrentInfo (req, res) {
 
     const result = await UserLog.find({userId}).sort({ date: -1 }).limit(1);
     
-    res.status(200).send(result);
+    res.status(200).send(result[0]);
   } catch (error) {
     res.status(500).send('Server error \n ' + error.message);
     console.error(error.message);    
