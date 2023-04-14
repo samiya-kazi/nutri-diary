@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Player } from '@lottiefiles/react-lottie-player';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
@@ -8,6 +8,8 @@ import { signUp } from '../Services/apiClientService';
 
 
 function SignUpPage() {
+
+  const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -32,7 +34,8 @@ function SignUpPage() {
     try {
       const { firstName, lastName, email, gender, age, password } = state;
       const res = await signUp(firstName, lastName, email, password, gender, age);
-      console.log(res);
+      localStorage.setItem('access-token', res.headers.authorization);
+      navigate('/dashboard');
     } catch (error) {
       console.log(error);
     }

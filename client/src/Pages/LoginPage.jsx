@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Player } from '@lottiefiles/react-lottie-player';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
@@ -7,6 +7,8 @@ import loginLottie from '../assets/lottie/121421-login.json';
 import { login } from '../Services/apiClientService';
 
 function LoginPage() {
+
+  const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
   const [state, setState] = useState({});
@@ -26,6 +28,8 @@ function LoginPage() {
     try {
       const { email, password } = state;
       const res = await login(email, password);
+      localStorage.setItem('access-token', res.headers.authorization);
+      navigate('/dashboard');
     } catch (error) {
       console.log(error);
     }
